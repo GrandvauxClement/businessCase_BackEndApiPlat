@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\ImagesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}}
+ * )
  * @ORM\Entity(repositoryClass=ImagesRepository::class)
  */
 class Images
@@ -16,17 +21,23 @@ class Images
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $nom;
 
     /**
      * @ORM\ManyToOne(targetEntity=Car::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $car;
 

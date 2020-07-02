@@ -3,13 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\CarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}}
+ * )
  * @ORM\Entity(repositoryClass=CarRepository::class)
  */
 class Car
@@ -18,51 +23,69 @@ class Car
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $marque;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $modele;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $carburant;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $annee;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $kilometrage;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $prix;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $date_ajout;
 
     /**
      * @ORM\ManyToOne(targetEntity=Garages::class, inversedBy="car")
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $garages;
 
     /**
      * @ORM\OneToMany(targetEntity=Images::class, mappedBy="relation", orphanRemoval=true)
+     *
      */
     private $images;
 

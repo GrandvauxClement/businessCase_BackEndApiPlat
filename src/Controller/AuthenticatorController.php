@@ -27,6 +27,7 @@ class AuthenticatorController extends AbstractController
         $user->setPrenom($prenom);
         $user->setNumSiret($numSiret);
         $user->setNumTelephone($numTelephone);
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword($encoder->encodePassword($user, $password));
         $em->persist($user);
         $em->flush();
@@ -37,5 +38,9 @@ class AuthenticatorController extends AbstractController
     public function api()
     {
         return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()));
+    }
+
+    public function getCompleteUser() {
+        return $this->json($this->getUser());
     }
 }
