@@ -70,11 +70,11 @@ class Car
     private $prix;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Groups("full")
      * @Groups({"read", "write"})
      */
-    private $date_ajout;
+    private $dateAjout;
 
     /**
      * @ORM\ManyToOne(targetEntity=Garages::class, inversedBy="car")
@@ -84,8 +84,9 @@ class Car
     private $garages;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="relation", orphanRemoval=true)
-     *
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="car")
+     * @Groups("full")
+     * @Groups({"read", "write"})
      */
     private $images;
 
@@ -173,12 +174,12 @@ class Car
 
     public function getDateAjout(): ?\DateTimeInterface
     {
-        return $this->date_ajout;
+        return $this->dateAjout;
     }
 
-    public function setDateAjout(\DateTimeInterface $date_ajout): self
+    public function setDateAjout(\DateTimeInterface $dateAjout): self
     {
-        $this->date_ajout = $date_ajout;
+        $this->dateAjout = $dateAjout;
 
         return $this;
     }
@@ -203,23 +204,23 @@ class Car
         return $this->images;
     }
 
-    public function addImage(Images $image): self
+    public function addImages(Images $images): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setRelation($this);
+        if (!$this->images->contains($images)) {
+            $this->images[] = $images;
+            $images->setCar($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImages(Images $images): self
     {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
+        if ($this->images->contains($images)) {
+            $this->images->removeElement($images);
             // set the owning side to null (unless already changed)
-            if ($image->getRelation() === $this) {
-                $image->setRelation(null);
+            if ($images->getCar() === $this) {
+                $images->setCar(null);
             }
         }
 

@@ -21,23 +21,18 @@ class Images
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("full")
      * @Groups({"read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("full")
      * @Groups({"read", "write"})
      */
     private $nom;
 
     /**
      * @ORM\ManyToOne(targetEntity=Car::class, inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $car;
 
