@@ -66,12 +66,6 @@ class Pro implements UserInterface
     private $numTelephone;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
-     */
-    private $numSiret;
-
-    /**
      * @ORM\OneToMany(targetEntity=Garages::class, mappedBy="pro")
      * @Groups({"read", "write"})
      */
@@ -192,18 +186,6 @@ class Pro implements UserInterface
     public function setNumTelephone(string $numTelephone): self
     {
         $this->numTelephone = $numTelephone;
-
-        return $this;
-    }
-
-    public function getNumSiret(): ?string
-    {
-        return $this->numSiret;
-    }
-
-    public function setNumSiret(string $numSiret): self
-    {
-        $this->numSiret = $numSiret;
 
         return $this;
     }

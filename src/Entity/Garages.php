@@ -66,6 +66,27 @@ class Garages
      * @ORM\ManyToOne(targetEntity=Pro::class, inversedBy="garages")
      */
     private $pro;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
+     */
+    private $numSiret;
+
+    /**
+     * @return mixed
+     */
+    public function getNumSiret()
+    {
+        return $this->numSiret;
+    }
+
+    /**
+     * @param mixed $numSiret
+     */
+    public function setNumSiret($numSiret): void
+    {
+        $this->numSiret = $numSiret;
+    }
 
     public function __construct()
     {
