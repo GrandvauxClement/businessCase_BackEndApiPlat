@@ -10,13 +10,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProRepository::class)
- * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
- * )
+ * @ApiResource
  */
 class Pro implements UserInterface
 {
@@ -24,50 +22,47 @@ class Pro implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"read", "write"})
+     * @Assert\NotNull
+     * @Assert\Email(
+     *     message = "le email '{{ value }}' n'est pas valide."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"read", "write"})
      */
     private $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Groups({"read", "write"})
+     * @var string The hashed password
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $numTelephone;
 
     /**
      * @ORM\OneToMany(targetEntity=Garages::class, mappedBy="pro")
-     * @Groups({"read", "write"})
+     * @ApiSubresource
      */
     private $garages;
 

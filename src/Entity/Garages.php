@@ -11,10 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
- * )
+ * @ApiResource
  * @ORM\Entity(repositoryClass=GaragesRepository::class)
  */
 class Garages
@@ -23,52 +20,47 @@ class Garages
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $rue;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $codePostal;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $numTelephone;
 
     /**
      * @ORM\OneToMany(targetEntity=Car::class, mappedBy="garages")
+     * @ApiSubresource
      */
     private $car;
 
     /**
      * @ORM\ManyToOne(targetEntity=Pro::class, inversedBy="garages")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $pro;
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read", "write"})
      */
     private $numSiret;
 

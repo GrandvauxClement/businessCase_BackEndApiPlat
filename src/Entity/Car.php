@@ -11,10 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
- * )
+ * @ApiResource
  * @ORM\Entity(repositoryClass=CarRepository::class)
  */
 class Car
@@ -23,76 +20,62 @@ class Car
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $marque;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $modele;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $carburant;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $annee;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $kilometrage;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $prix;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Groups("full")
-     * @Groups({"read", "write"})
      */
     private $dateAjout;
 
     /**
      * @ORM\ManyToOne(targetEntity=Garages::class, inversedBy="car")
-     * @Groups("full")
-     * @Groups({"read", "write"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $garages;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="car")
-     * @Groups("full")
-     * @Groups({"read", "write"})
+     * @ORM\Column(type="array", nullable=true)
      */
-    private $images;
+    private $images = [];
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
     public function __construct()
     {
-        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,34 +179,28 @@ class Car
         return $this;
     }
 
-    /**
-     * @return Collection|Images[]
-     */
-    public function getImages(): Collection
+    public function getImages(): ?array
     {
         return $this->images;
     }
 
-    public function addImages(Images $images): self
+    public function setImages(?array $images): self
     {
-        if (!$this->images->contains($images)) {
-            $this->images[] = $images;
-            $images->setCar($this);
-        }
+        $this->images = $images;
 
         return $this;
     }
 
-    public function removeImages(Images $images): self
+    public function getDescription(): ?string
     {
-        if ($this->images->contains($images)) {
-            $this->images->removeElement($images);
-            // set the owning side to null (unless already changed)
-            if ($images->getCar() === $this) {
-                $images->setCar(null);
-            }
-        }
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
+
 }

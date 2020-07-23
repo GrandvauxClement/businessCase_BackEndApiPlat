@@ -18,3 +18,8 @@ get_user:
     path:     /api/pro
     controller: App\Controller\AuthenticatorController::getCompleteUser
     methods:  [GET]
+
+#add_car:
+#    path: /api/cars/add_car
+#    controller: App\Controller\CarController::addCar
+#    methods: [POST]

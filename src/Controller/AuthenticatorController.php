@@ -19,13 +19,11 @@ class AuthenticatorController extends AbstractController
         $password = json_decode($request->getContent())->password;
         $nom = json_decode($request->getContent())->nom;
         $prenom = json_decode($request->getContent())->prenom;
-        $numSiret = json_decode($request->getContent())->numSiret;
         $numTelephone = json_decode($request->getContent())->numTelephone;
         $user = new Pro();
         $user->setEmail($email);
         $user->setNom($nom);
         $user->setPrenom($prenom);
-        $user->setNumSiret($numSiret);
         $user->setNumTelephone($numTelephone);
         $user->setRoles(['ROLE_USER']);
         $user->setPassword($encoder->encodePassword($user, $password));

@@ -25,14 +25,14 @@ class ProRepository extends ServiceEntityRepository implements PasswordUpgraderI
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
-    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    public function upgradePassword(UserInterface $pro, string $newEncodedPassword): void
     {
-        if (!$user instanceof Pro) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        if (!$pro instanceof Pro) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($pro)));
         }
 
-        $user->setPassword($newEncodedPassword);
-        $this->_em->persist($user);
+        $pro->setPassword($newEncodedPassword);
+        $this->_em->persist($pro);
         $this->_em->flush();
     }
 

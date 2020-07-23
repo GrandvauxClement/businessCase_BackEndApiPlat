@@ -11,6 +11,7 @@
 
 namespace App\Command;
 
+use App\Entity\Garages;
 use App\Entity\Pro;
 use App\Repository\ProRepository;
 use App\Utils\Validator;
@@ -201,6 +202,15 @@ class AddUserCommand extends Command
         $user->setPrenom($prenom);
         $user->setNom($nom);
         $user->setNumTelephone($numTelephone);
+        $garages = new Garages();
+        $garages->setNumTelephone('0385749875');
+        $garages->setNom('TestGarages');
+        $garages->setNumSiret('1245654587548');
+        $garages->setCodePostal('39210');
+        $garages->setRue('rue du test');
+        $garages->setVille('Test-City');
+        $garages->setPro($user);
+
 
         // See https://symfony.com/doc/current/security.html#c-encoding-passwords
         $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
@@ -209,7 +219,7 @@ class AddUserCommand extends Command
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $this->io->success(sprintf('%s was successfully created: %s (%s)', $isAdmin ? 'Administrator user' : 'User', $user->getUsername(), $user->getEmail()));
+        $this->io->success(sprintf('%s was successfully created: %s (%s)', $isAdmin ? 'Administrator user' : 'User', $user->getPrenom(), $user->getEmail()));
 
         $event = $stopwatch->stop('add-user-command');
         if ($output->isVerbose()) {
